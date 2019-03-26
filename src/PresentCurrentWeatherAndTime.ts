@@ -1,9 +1,13 @@
+import { WeatherLocation } from "./WeatherLocation"
+import { CurrentWeather } from "./CurrentWeather"
 const PresentCurrentWeatherAndTime = class {
 
   private localConditions: any[] = [];
-  constructor(dataArray, locationFectcher, weatherFetcher) {
+  constructor(dataArray) {
     let answer: any[] = [];
     for (var i = 0; i < dataArray.length; i++) {
+      const locationFectcher = new WeatherLocation(dataArray[i])
+      const weatherFetcher = new CurrentWeather();
       const res = locationFectcher.getGeolocation()
         .then(weatherFetcher.getCurrentConditions.bind(weatherFetcher))
         .then(this.show)
@@ -18,7 +22,7 @@ const PresentCurrentWeatherAndTime = class {
     console.log(`Current temperature: ${answer.weather.temperatureF}F`)
     return answer
   }
-  getLocalConditions(){
+  getLocalConditions() {
     return this.localConditions
   }
 }
