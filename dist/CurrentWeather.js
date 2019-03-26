@@ -9,6 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const Config_1 = require("./Config");
+const LocalTime_1 = require("./LocalTime");
 const request = require("request-promise");
 const CurrentWeather = class {
     getCurrentConditions(locationAndTimeOffset) {
@@ -39,9 +40,10 @@ const CurrentWeather = class {
     processCurrentConditions(result) {
         if (result !== null) {
             if (result.success === true) {
-                const currentTime = this.calcTime(this.timeZoneOffset);
+                const currentTime = LocalTime_1.LocalTime.calcTime(this.timeZoneOffset);
                 const conditions = result.response[0];
                 return {
+                    'location': conditions.place.name,
                     'currentTime': currentTime,
                     'observationTime': conditions.obDateTime,
                     'weather': {
@@ -56,12 +58,6 @@ const CurrentWeather = class {
                 return result.error;
             }
         }
-    }
-    calcTime(timeZoneOffset) {
-        const d = new Date();
-        const utc = d.getTime() + (d.getTimezoneOffset() * 60000);
-        const offsetInHours = timeZoneOffset / 3600;
-        return new Date(utc + (3600000 * offsetInHours)).toLocaleString();
     }
 };
 exports.CurrentWeather = CurrentWeather;

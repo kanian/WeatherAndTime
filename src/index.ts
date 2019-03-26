@@ -16,7 +16,10 @@ const currentWeatherAndTime = dataArray => {
 
 const saveAnswer = result => localConditions.push(result)
 const show = answer => {
-  console.log(answer)
+  console.log(`Location: ${answer.location}`)
+  console.log(`Current time: ${answer.currentTime}`)
+  console.log(`Current weather: ${answer.weather.weather}`);
+  console.log(`Current temperature: ${answer.weather.temperatureF}F`)
   return answer
 }
 const answer = currentWeatherAndTime([['Abidjan'],['Cairo']])

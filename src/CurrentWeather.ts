@@ -1,4 +1,5 @@
 import { Config } from './Config'
+import {LocalTime} from './LocalTime'
 import * as request from 'request-promise'
 
 const CurrentWeather = class {
@@ -31,9 +32,10 @@ const CurrentWeather = class {
   processCurrentConditions(result) {
     if (result !== null) {
       if (result.success === true) {
-        const currentTime = this.calcTime(this.timeZoneOffset)
+        const currentTime = LocalTime.calcTime(this.timeZoneOffset)
         const conditions = result.response[0];
         return {
+          'location': conditions.place.name,
           'currentTime': currentTime,
           'observationTime': conditions.obDateTime,
           'weather': {
@@ -47,13 +49,6 @@ const CurrentWeather = class {
         return result.error
       }
     }
-  }
-
-  private calcTime(timeZoneOffset: number){
-    const d = new Date()
-    const utc = d.getTime() + (d.getTimezoneOffset() * 60000);
-    const offsetInHours = timeZoneOffset/3600;    
-    return new Date(utc + (3600000*offsetInHours)).toLocaleString();
   }
 }
 
