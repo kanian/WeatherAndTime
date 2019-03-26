@@ -1,0 +1,10 @@
+{
+  "name": "weatherandtime",
+  "version": "1.0.0",
+  "description": "sample weather service",
+  "main": "dist/index.js",
+  "scripts": {
+  },
+  "author": "patrick assoa adou",
+  "license": "ISC"
+}
