@@ -35,6 +35,7 @@ const CurrentWeather = class {
         const currentTime = LocalTime.calcTime(this.timeZoneOffset)
         const conditions = result.response[0];
         return {
+          'location': conditions.place.name,
           'currentTime': currentTime,
           'observationTime': conditions.obDateTime,
           'weather': {
