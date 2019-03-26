@@ -2,9 +2,12 @@
   "name": "weatherandtime",
   "version": "1.0.0",
   "description": "sample weather service",
-  "main": "dist/index.js",
-  "scripts": {
-  },
+  "main": "src/index.ts",
+  "scripts": {},
   "author": "patrick assoa adou",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "request": "^2.88.0",
+    "request-promise": "^4.2.4"
+  }
 }
