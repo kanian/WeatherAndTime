@@ -1,22 +1,23 @@
 import { WeatherLocation } from "./WeatherLocation"
-
+import { CurrentWeather} from "./CurrentWeather"
 let localConditions: any[] = [];
 const currentWeatherAndTime = dataArray => {
-    let answer: any[] = [];
-    for (var i = 0; i < dataArray.length; i++) {
-        const fetcher = new WeatherLocation(dataArray[i])
-        //const res = await fetcher.getCurrentConditions(await fetcher.getGeolocation())
-        const res = fetcher.getGeolocation()
-        .then(show)
-        .then(saveAnswer)
+  let answer: any[] = [];
+  for (var i = 0; i < dataArray.length; i++) {
+    const locationFectcher = new WeatherLocation(dataArray[i])
+    const weatherFetcher = new CurrentWeather();
+    const res = locationFectcher.getGeolocation()
+    .then(weatherFetcher.getCurrentConditions.bind(weatherFetcher))
+    .then(show)
+    .then(saveAnswer)
     }
-    return answer;
+  return answer;
 }
 
 const saveAnswer = result => localConditions.push(result)
 const show = answer => {
-    console.log(answer)
-    return answer
+  console.log(answer)
+  return answer
 }
 const answer = currentWeatherAndTime([['Abidjan'],['Cairo']])
 
