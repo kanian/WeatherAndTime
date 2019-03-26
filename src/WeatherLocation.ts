@@ -19,23 +19,36 @@ const WeatherLocation = class {
       console.log(err);
     }
   }
-
   getGeolocationOptions() {
+    return this.postalCode !== undefined ? this.getGeolocationByPostalCodeOptions() : this.getGeolocationByPlaceNameOptions()
+  }
+  getGeolocationByPlaceNameOptions() {
     return {
-        uri: Config.locationAPIUrl,
-        qs: {
-          client_id: Config.clientId,
-          client_secret: Config.clientSecret,
-          query: 'name:'+this.location,
-          limit:1
-        },
-        json: true
-      }
+      uri: Config.locationAPIUrl,
+      qs: {
+        client_id: Config.clientId,
+        client_secret: Config.clientSecret,
+        query: 'name:'+this.location,
+        limit:1
+      },
+      json: true
+    }
+  }
+  getGeolocationByPostalCodeOptions() {
+    return {
+      uri: Config.locationAPIUrlPostal + this.postalCode,
+      qs: {
+        client_id: Config.clientId,
+        client_secret: Config.clientSecret,
+      },
+      json: true
+    }
   }
   processGeolocation(result) {
     if (result !== null) {
       if (result.success === true) {
-        return {location: result.response[0].loc, timeZoneOffset: result.response[0].profile.tzoffset};
+        const response = result.response[0] === undefined ? result.response : result.response[0]
+        return {location: response.loc, timeZoneOffset: response.profile.tzoffset};
       } else {
         return result.error
       }

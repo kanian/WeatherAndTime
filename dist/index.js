@@ -23,5 +23,5 @@ const show = answer => {
     console.log(`Current temperature: ${answer.weather.temperatureF}F`);
     return answer;
 };
-const answer = currentWeatherAndTime([['Abidjan'], ['Cairo']]);
+const answer = currentWeatherAndTime([['Abidjan'], ['Minneapolis', '55403']]);
 //# sourceMappingURL=index.js.map
