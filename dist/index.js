@@ -1,13 +1,15 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const WeatherLocation_1 = require("./WeatherLocation");
+const CurrentWeather_1 = require("./CurrentWeather");
 let localConditions = [];
 const currentWeatherAndTime = dataArray => {
     let answer = [];
     for (var i = 0; i < dataArray.length; i++) {
-        const fetcher = new WeatherLocation_1.WeatherLocation(dataArray[i]);
-        //const res = await fetcher.getCurrentConditions(await fetcher.getGeolocation())
-        const res = fetcher.getGeolocation()
+        const locationFectcher = new WeatherLocation_1.WeatherLocation(dataArray[i]);
+        const weatherFetcher = new CurrentWeather_1.CurrentWeather();
+        const res = locationFectcher.getGeolocation()
+            .then(weatherFetcher.getCurrentConditions.bind(weatherFetcher))
             .then(show)
             .then(saveAnswer);
     }
