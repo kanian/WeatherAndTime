@@ -4,7 +4,6 @@ import * as request from 'request-promise'
 const WeatherLocation = class {
   location: string = undefined
   postalCode: string = undefined
-  timeZoneOffset: number = undefined;
   constructor(info: string[]) {
     this.location = info[0]
     this.postalCode = info[1]
@@ -36,8 +35,7 @@ const WeatherLocation = class {
   processGeolocation(result) {
     if (result !== null) {
       if (result.success === true) {
-        this.timeZoneOffset = result.response[0].profile.tzoffset;
-        return result.response[0].loc;
+        return {location: result.response[0].loc, timeZoneOffset: result.response[0].profile.tzoffset};
       } else {
         return result.error
       }
