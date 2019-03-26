@@ -30,6 +30,9 @@ const WeatherLocation = class {
         });
     }
     getGeolocationOptions() {
+        return this.postalCode !== undefined ? this.getGeolocationByPostalCodeOptions() : this.getGeolocationByPlaceNameOptions();
+    }
+    getGeolocationByPlaceNameOptions() {
         return {
             uri: Config_1.Config.locationAPIUrl,
             qs: {
@@ -41,10 +44,21 @@ const WeatherLocation = class {
             json: true
         };
     }
+    getGeolocationByPostalCodeOptions() {
+        return {
+            uri: Config_1.Config.locationAPIUrlPostal + this.postalCode,
+            qs: {
+                client_id: Config_1.Config.clientId,
+                client_secret: Config_1.Config.clientSecret,
+            },
+            json: true
+        };
+    }
     processGeolocation(result) {
         if (result !== null) {
             if (result.success === true) {
-                return { location: result.response[0].loc, timeZoneOffset: result.response[0].profile.tzoffset };
+                const response = result.response[0] === undefined ? result.response : result.response[0];
+                return { location: response.loc, timeZoneOffset: response.profile.tzoffset };
             }
             else {
                 return result.error;
